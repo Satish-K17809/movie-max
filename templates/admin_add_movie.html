@@ -1,0 +1,70 @@
+{% extends "admin_base.html" %}
+{% block title %}Add Movie{% endblock %}
+
+{% block content %}
+<div class="adm-card">
+    <h1 class="page-title">Add a Movie</h1>
+    <p class="page-sub">The movie appears on the user home page straight after you add it.</p>
+
+    {% with messages = get_flashed_messages() %}
+        {% for msg in messages %}<div class="success-box">{{ msg }}</div>{% endfor %}
+    {% endwith %}
+    {% if error %}<div class="error-box">{{ error }}</div>{% endif %}
+
+    <form action="{{ url_for('admin_add_movie') }}" method="POST">
+        <div class="form-grid">
+
+            <div>
+                <label>Movie title:</label>
+                <input type="text" name="title" maxlength="60" value="{{ old.title or '' }}" required>
+            </div>
+
+            <div>
+                <label>Ticket price (₹ per seat):</label>
+                <input type="number" name="price" min="1" max="5000" step="1" value="{{ old.price or '' }}" placeholder="e.g. 250" required>
+            </div>
+
+            <div class="full">
+                <label>Poster image link:</label>
+                <input type="text" name="poster" value="{{ old.poster or '' }}" placeholder="https://..." required>
+                <div class="hint">Paste a link to the poster image (right-click an image &rarr; Copy image address).</div>
+            </div>
+
+            <div>
+                <label>Rating (0 - 10):</label>
+                <input type="number" name="rating" min="0" max="10" step="0.1" value="{{ old.rating or '' }}" placeholder="e.g. 8.5" required>
+            </div>
+
+            <div>
+                <label>Genre:</label>
+                <input type="text" name="genre" value="{{ old.genre or '' }}" placeholder="Action, Sci-Fi, Adventure" required>
+                <div class="hint">Separate with commas.</div>
+            </div>
+
+            <div class="full">
+                <label>Cast:</label>
+                <input type="text" name="cast" value="{{ old.cast or '' }}" placeholder="Actor One, Actor Two, Actor Three" required>
+                <div class="hint">Separate with commas.</div>
+            </div>
+
+            <div>
+                <label>Director:</label>
+                <input type="text" name="director" value="{{ old.director or '' }}" required>
+            </div>
+
+            <div>
+                <label>Music (optional):</label>
+                <input type="text" name="music" value="{{ old.music or '' }}">
+            </div>
+
+            <div class="full">
+                <label>Description:</label>
+                <textarea name="description" maxlength="600" required>{{ old.description or '' }}</textarea>
+            </div>
+
+        </div>
+
+        <button type="submit" class="submit-btn">ADD MOVIE</button>
+    </form>
+</div>
+{% endblock %}

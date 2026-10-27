@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Movie Max - Admin Login</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+    * { box-sizing: border-box; }
+
+    body {
+        margin: 0;
+        font-family: 'Inter', sans-serif;
+        background-color: #F7F6F3;
+        color: #2A2924;
+        background-image: url('/static/image.png');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .site-header { display: flex; flex-direction: column; align-items: center; padding: 56px 20px 20px; }
+    .reel-mark { width: 34px; height: 34px; margin-bottom: 12px; }
+    .site-name { font-family: 'Fraunces', serif; font-weight: 600; font-size: 24px; letter-spacing: 0.5px; color: #2A2924; }
+    .site-name span { color: #9A9890; font-weight: 500; }
+
+    .login-wrap { display: flex; justify-content: center; padding: 20px 20px 80px; width: 100%; }
+
+    .login-card {
+        background: #FFFFFF;
+        border: 1px solid #DEDCD5;
+        border-radius: 6px;
+        padding: 40px 46px;
+        max-width: 400px;
+        width: 100%;
+    }
+
+    .login-card h1 { font-family: 'Fraunces', serif; font-size: 21px; font-weight: 600; margin: 0 0 26px; text-align: center; }
+
+    label { display: block; font-size: 12.5px; color: #6F6D66; margin-bottom: 6px; margin-top: 16px; }
+    label:first-of-type { margin-top: 0; }
+
+    input[type="text"], input[type="password"] {
+        width: 100%;
+        padding: 10px 12px;
+        border: 1px solid #DEDCD5;
+        border-radius: 4px;
+        font-family: 'Inter', sans-serif;
+        font-size: 14px;
+        background: #F7F6F3;
+        color: #2A2924;
+    }
+    input:focus { outline: none; border-color: #2A2924; }
+
+    .login-submit {
+        width: 100%;
+        margin-top: 26px;
+        padding: 12px 0;
+        font-family: 'Inter', sans-serif;
+        font-size: 14.5px;
+        font-weight: 600;
+        background: #2A2924;
+        color: #F7F6F3;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background 0.15s ease;
+    }
+    .login-submit:hover { background: #454339; }
+
+    .error-box {
+        background: #FBEAEA;
+        border: 1px solid #E3B8B8;
+        color: #9A3B3B;
+        font-size: 13px;
+        padding: 10px 14px;
+        border-radius: 4px;
+        margin-bottom: 18px;
+        text-align: center;
+    }
+
+    .bottom-note { text-align: center; font-size: 13px; color: #6F6D66; margin-top: 18px; }
+    .bottom-note a { color: #2A2924; font-weight: 600; text-decoration: none; }
+</style>
+</head>
+
+<body>
+
+    <div class="site-header">
+        <svg class="reel-mark" viewBox="0 0 48 48" fill="none">
+            <circle cx="24" cy="24" r="21" stroke="#2A2924" stroke-width="1.6"/>
+            <circle cx="24" cy="24" r="6" stroke="#2A2924" stroke-width="1.6"/>
+            <circle cx="24" cy="9" r="2.6" fill="#2A2924"/>
+            <circle cx="37" cy="17" r="2.6" fill="#2A2924"/>
+            <circle cx="37" cy="31" r="2.6" fill="#2A2924"/>
+            <circle cx="24" cy="39" r="2.6" fill="#2A2924"/>
+            <circle cx="11" cy="31" r="2.6" fill="#2A2924"/>
+            <circle cx="11" cy="17" r="2.6" fill="#2A2924"/>
+        </svg>
+        <div class="site-name">MOVIE <span>MAX</span></div>
+    </div>
+
+    <div class="login-wrap">
+        <div class="login-card">
+            <h1>Admin Login</h1>
+
+            {% if error %}
+            <div class="error-box">{{ error }}</div>
+            {% endif %}
+
+            <form action="{{ url_for('admin_login') }}" method="POST">
+                <label>Admin ID:</label>
+                <input type="text" name="admin_id" autocomplete="off" required>
+
+                <label>Password:</label>
+                <input type="password" name="password" required>
+
+                <button type="submit" class="login-submit">Login</button>
+            </form>
+
+            <div class="bottom-note">
+                <a href="{{ url_for('index') }}">&larr; Back</a>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

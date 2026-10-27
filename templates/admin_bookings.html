@@ -1,0 +1,72 @@
+{% extends "admin_base.html" %}
+{% block title %}Booked Details{% endblock %}
+
+{% block content %}
+<div class="adm-card">
+    <h1 class="page-title">Booked Details</h1>
+    <p class="page-sub">Who has booked which movie tickets (newest first).</p>
+
+    <div class="stats">
+        <div class="stat"><small>Total bookings</small><strong>{{ bookings|length }}</strong></div>
+        <div class="stat"><small>Tickets sold</small><strong>{{ total_tickets }}</strong></div>
+        <div class="stat"><small>Total amount</small><strong>₹{{ total_amount }}</strong></div>
+    </div>
+
+    <div class="search-box">
+        <input type="text" id="bkSearch" placeholder="🔍  Search by name, email, movie or booking ID...">
+    </div>
+
+    <div class="table-wrap">
+        <table id="bkTable">
+            <thead>
+                <tr>
+                    <th>Booking ID</th>
+                    <th>Customer</th>
+                    <th>Movie</th>
+                    <th>Show</th>
+                    <th>Seats</th>
+                    <th>Tickets</th>
+                    <th>Amount</th>
+                    <th>Booked on</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for b in bookings %}
+                <tr>
+                    <td class="id-cell">{{ b.booking_id }}</td>
+                    <td>{{ b.customer_name }}<small>{{ b.customer_email }}</small><small>{{ b.customer_phone }}</small></td>
+                    <td>{{ b.movie_title }}</td>
+                    <td>{{ b.show_date_display }}<small>{{ b.show_time }}</small></td>
+                    <td>{{ b.seats|join(', ') }}</td>
+                    <td>{{ b.seat_count }}</td>
+                    <td>₹{{ b.total_amount }}<small>₹{{ b.ticket_price }} × {{ b.seat_count }}</small></td>
+                    <td>{{ b.booked_on }}</td>
+                    <td><span class="badge">{{ b.status }}</span></td>
+                </tr>
+                {% else %}
+                <tr><td colspan="9" class="empty-row">No bookings yet.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <p class="empty-row" id="bkNone" style="display:none;">No matching bookings.</p>
+</div>
+
+<script>
+    // Simple live filter: hides the rows that do not contain the typed text
+    const bkSearch = document.getElementById('bkSearch');
+    bkSearch.addEventListener('input', function () {
+        const text = bkSearch.value.trim().toLowerCase();
+        const rows = document.querySelectorAll('#bkTable tbody tr');
+        let shown = 0;
+        rows.forEach(function (row) {
+            if (row.querySelector('.empty-row')) { return; }
+            const match = row.textContent.toLowerCase().includes(text);
+            row.style.display = match ? '' : 'none';
+            if (match) { shown++; }
+        });
+        document.getElementById('bkNone').style.display = (shown === 0 && rows.length && !rows[0].querySelector('.empty-row')) ? 'block' : 'none';
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,21 @@
+# render.yaml - optional "Blueprint" so Render can set the service up automatically.
+# (You can also create the service by hand - the same values are explained in DEPLOY.md.)
+services:
+  - type: web
+    name: movie-max
+    runtime: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn app:app
+    healthCheckPath: /
+    envVars:
+      - key: MONGO_URI          # paste your Atlas connection string in the Render dashboard
+        sync: false
+      - key: SECRET_KEY         # Render creates a random value for you
+        generateValue: true
+      - key: ADMIN_ID
+        sync: false
+      - key: ADMIN_PASSWORD
+        sync: false
+      # EMAIL_ADDRESS / EMAIL_PASSWORD are intentionally left out: Render's free plan blocks
+      # Gmail SMTP, so the app simply skips sending email (bookings still work). See DEPLOY.md.
